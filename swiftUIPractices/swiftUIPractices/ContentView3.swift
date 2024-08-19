@@ -12,7 +12,7 @@ struct ContentView3: View {
         HStack {
             ZStack {
                 Circle()
-                    .fill(Color.yellow)
+                    .fill(Color.green)
                 Button("Press me") {
                     print("Button tapped")
                 }
@@ -21,6 +21,9 @@ struct ContentView3: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Begining SwiftUI")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color.gray)
                 Text("Daniel, 2024")
             }
         }
