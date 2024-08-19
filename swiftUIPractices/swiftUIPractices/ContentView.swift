@@ -9,11 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
+        List {
+            Text("Write SwiftUI book")
+            Text("Read Bible")
+            Text("Bring kids out to play")
+            Text("Fetch wife")
+            Text("Call mum")
+        }
+        Button("Try") {
+            print("Push")
+        }
         VStack {
-            Image(systemName: "globe")
+            Image(systemName: "trash")
                 .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+                .foregroundStyle(.secondary)
+            Text("Hello, SwiftUI!")
         }
         .padding()
     }
