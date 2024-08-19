@@ -9,23 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        List {
-            Text("Write SwiftUI book")
-            Text("Read Bible")
-            Text("Bring kids out to play")
-            Text("Fetch wife")
-            Text("Call mum")
+        Image(systemName: "globe")
+            .imageScale(.large)
+            .foregroundStyle(.tint)
+        Text("Hello, SwiftUI!")
+        Circle()
+        Rectangle()
+        Button("Press me") {
+            print("Button tapped")
         }
-        Button("Try") {
-            print("Push")
-        }
-        VStack {
-            Image(systemName: "trash")
-                .imageScale(.large)
-                .foregroundStyle(.secondary)
-            Text("Hello, SwiftUI!")
-        }
-        .padding()
     }
 }
 
