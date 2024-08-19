@@ -58,9 +58,9 @@
 				5D2C44A02C736F0A00EEF8E9 /* swiftUIPracticesApp.swift */,
 				5D2C44A22C736F0A00EEF8E9 /* ContentView.swift */,
 				5D2C44AE2C7398DC00EEF8E9 /* ContentView2.swift */,
+				5D2C44B02C7399C400EEF8E9 /* ContentView3.swift */,
 				5D2C44A42C736F0B00EEF8E9 /* Assets.xcassets */,
 				5D2C44A62C736F0B00EEF8E9 /* Preview Content */,
-				5D2C44B02C7399C400EEF8E9 /* ContentView3.swift */,
 			);
 			path = swiftUIPractices;
 			sourceTree = "<group>";
