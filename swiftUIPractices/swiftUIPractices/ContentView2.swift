@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ContentView2.swift
 //  swiftUIPractices
 //
 //  Created by Daniel Cazorro Frías on 19/8/24.
@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ContentView2: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Image(systemName: "globe")
+        HStack {
+            Image(systemName: "trash")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, SwiftUI!")
@@ -20,10 +20,9 @@ struct ContentView: View {
                 print("Button tapped")
             }
         }
-        .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView2()
 }
