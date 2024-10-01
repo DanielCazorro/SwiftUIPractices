@@ -11,7 +11,7 @@ import SwiftUI
 struct VacationInMalagaApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Symbols()
         }
     }
 }
