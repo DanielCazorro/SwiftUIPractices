@@ -13,5 +13,6 @@ struct VacationInMalagaApp: App {
         WindowGroup {
             Symbols()
         }
+        .modelContainer(for: Place.self)
     }
 }
