@@ -56,6 +56,12 @@ struct PlaceList: View {
                 }
                 .matchedTransitionSource(id: 1,
                                          in: namespace)
+                .swipeActions(edge: .leading) {
+                    Button(place.interested ? "Interested" : "Not Interested", systemImage: "star") {
+                        place.interested.toggle()
+                    }
+                    .tint(place.interested ? .yellow : .gray)
+                }
             }
             .navigationTitle("Places")
             .searchable(text: $searchText, prompt: "Find a Place")
@@ -67,7 +73,7 @@ struct PlaceList: View {
                             distance: 1000,
                             heading: 250,
                             pitch: 80
-                )))
+                        )))
                 .navigationTransition(.zoom(sourceID: 1,
                                             in: namespace))
             }
