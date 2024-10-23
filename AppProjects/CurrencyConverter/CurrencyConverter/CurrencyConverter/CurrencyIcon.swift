@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Currenty_Icon: View {
+struct CurrencyIcon: View {
     let currencyImage: ImageResource
     let currencyName: String
     
@@ -34,5 +34,5 @@ struct Currenty_Icon: View {
 }
 
 #Preview {
-    Currenty_Icon(currencyImage: .goldpiece, currencyName: "Gold Piece")
+    CurrencyIcon(currencyImage: .goldpiece, currencyName: "Gold Piece")
 }
