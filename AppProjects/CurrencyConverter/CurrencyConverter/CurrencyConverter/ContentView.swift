@@ -46,33 +46,15 @@ struct ContentView: View {
                 // Currency conversion section
                 HStack {
                     // Left conversion section
-                    VStack {
-                        // Currency
-                        HStack {
-                            // Currency image
-                            Image(leftCurrency.image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 33)
-                            
-                            // Currency text
-                            Text(leftCurrency.name)
-                                .font(.headline)
-                                .foregroundStyle(.white)
-                        }
-                        .padding(.bottom, -5)
-                        .onTapGesture {
+                    CurrencySectionView(
+                        amount: $leftAmount,
+                        currency: leftCurrency,
+                        isLeftSection: true,
+                        onCurrencyTap: {
                             showSelectCurrency.toggle()
                         }
-                        .popoverTip(CurrencyTip(),
-                                    arrowEdge: .bottom)
-                        
-                        // Text Field
-                        TextField("Amount", text: $leftAmount)
-                            .textFieldStyle(.roundedBorder)
-                            .focused($leftTyping)
-                            .keyboardType(.decimalPad)
-                    }
+                    )
+                    .focused($leftTyping)
                     
                     // Equal sign
                     Image(systemName: "equal")
@@ -80,39 +62,23 @@ struct ContentView: View {
                         .foregroundStyle(.white)
                         .symbolEffect(.pulse)
                     
-                    // Right  conversion section
-                    VStack {
-                        // Currency
-                        HStack {
-                            // Currency text
-                            Text(rightCurrency.name)
-                                .font(.headline)
-                                .foregroundStyle(.white)
-                            
-                            // Currency image
-                            Image(rightCurrency.image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 33)
-                        }
-                        .padding(.bottom, -5)
-                        .onTapGesture {
+                    // Right conversion section
+                    CurrencySectionView(
+                        amount: $rightAmount,
+                        currency: rightCurrency,
+                        isLeftSection: false,
+                        onCurrencyTap: {
                             showSelectCurrency.toggle()
                         }
-                        
-                        // Text Field
-                        TextField("Amount", text: $rightAmount)
-                            .textFieldStyle(.roundedBorder)
-                            .multilineTextAlignment(.trailing)
-                            .focused($rightTyping)
-                            .keyboardType(.decimalPad)
-                    }
+                    )
+                    .focused($rightTyping)
                 }
                 .padding()
                 .background(.black.opacity(0.5))
                 .clipShape(.capsule)
                 
                 Spacer()
+
                 // Info button
                 HStack {
                     Spacer()
@@ -124,7 +90,6 @@ struct ContentView: View {
                             .foregroundStyle(.white)
                     }
                     .padding(.trailing)
-                    
                 }
             }
         }
