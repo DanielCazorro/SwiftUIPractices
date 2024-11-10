@@ -20,7 +20,7 @@ struct ContentView: View {
     
     @State var leftCurrency: Currency = .silverPiece
     @State var rightCurrency: Currency = .goldPiece
-
+    
     var body: some View {
         ZStack {
             // Background image
@@ -66,9 +66,9 @@ struct ContentView: View {
                         
                         // Text Field
                         TextField("Amount", text: $leftAmount)
-                        .textFieldStyle(.roundedBorder)
-                        .focused($leftTyping)
-                        .keyboardType(.decimalPad)
+                            .textFieldStyle(.roundedBorder)
+                            .focused($leftTyping)
+                            .keyboardType(.decimalPad)
                     }
                     
                     // Equal sign
@@ -99,10 +99,10 @@ struct ContentView: View {
                         
                         // Text Field
                         TextField("Amount", text: $rightAmount)
-                        .textFieldStyle(.roundedBorder)
-                        .multilineTextAlignment(.trailing)
-                        .focused($rightTyping)
-                        .keyboardType(.decimalPad)
+                            .textFieldStyle(.roundedBorder)
+                            .multilineTextAlignment(.trailing)
+                            .focused($rightTyping)
+                            .keyboardType(.decimalPad)
                     }
                 }
                 .padding()
@@ -124,7 +124,6 @@ struct ContentView: View {
                     
                 }
             }
-            //            .border(.blue)
         }
         .task {
             try? Tips.configure()
@@ -144,14 +143,35 @@ struct ContentView: View {
         }
         .onChange(of: leftCurrency) {
             leftAmount = rightCurrency.convert(rightAmount, to: leftCurrency)
+            saveCurrencySelection()
         }
         .onChange(of: rightCurrency) {
             rightAmount = leftCurrency.convert(leftAmount, to: rightCurrency)
+            saveCurrencySelection()
         }
         .sheet(isPresented: $showSelectCurrency) {
             SelectCurrency(topCurrency: $leftCurrency,
                            bottomCurrency: $rightCurrency)
         }
+        .onAppear {
+            loadCurrencySelection()
+        }
+    }
+    
+    // Guardar la selección en UserDefaults
+    func saveCurrencySelection() {
+        UserDefaults.standard.set(leftCurrency.rawValue, forKey: "leftCurrency")
+        UserDefaults.standard.set(rightCurrency.rawValue, forKey: "rightCurrency")
+    }
+    
+    // Cargar la selección desde UserDefaults
+    func loadCurrencySelection() {
+        let savedLeftCurrency = UserDefaults.standard.double(forKey: "leftCurrency")
+        let savedRightCurrency = UserDefaults.standard.double(forKey: "rightCurrency")
+        
+        // Asigna las monedas solo si los valores guardados son válidos en Currency
+        leftCurrency = Currency(rawValue: savedLeftCurrency) ?? .silverPiece
+        rightCurrency = Currency(rawValue: savedRightCurrency) ?? .goldPiece
     }
 }
 
