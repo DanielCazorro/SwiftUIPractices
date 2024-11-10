@@ -27,6 +27,9 @@ struct ContentView: View {
             Image(.background)
                 .resizable()
                 .ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.dismissKeyboard()
+                }
             
             VStack {
                 // Prancing pony image
