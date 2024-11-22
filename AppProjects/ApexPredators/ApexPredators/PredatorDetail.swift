@@ -29,16 +29,48 @@ struct PredatorDetail: View {
                         .shadow(color: .black, radius: 7)
                         .offset(y: 6)
                 }
-                
-                // Dino name
-                
-                // Current location
-                
-                // Appears in
-                
-                // Movi9e moments
-                
-                // Link to webpage
+                VStack(alignment: .leading) {
+                    // Dino name
+                    Text(predator.name)
+                        .font(.largeTitle)
+                    
+                    // Current location
+                    
+                    // Appears in
+                    Text("Appears In:")
+                        .font(.title3)
+                    
+                    ForEach(predator.movies, id: \.self) { movie in
+                        Text("•" + movie)
+                            .font(.subheadline)
+                    }
+                    
+                    // Movie moments
+                    Text("Movie Moments")
+                        .font(.title)
+                        .padding(.top, 15)
+                    
+                    ForEach(predator.movieScenes) { scene in
+                        Text(scene.movie)
+                            .font(.title2)
+                            .padding(.vertical, 1)
+                        
+                        Text(scene.sceneDescription)
+                            .padding(.bottom, 15)
+                    }
+                    
+                    // Link to webpage
+                    Text("Read More:")
+                        .font(.caption)
+                    
+                    Link(predator.link,
+                         destination: URL(string: predator.link) ?? URL(fileURLWithPath: "www.google.es"))
+                    .font(.caption)
+                    .foregroundStyle(.blue)
+                }
+                .padding()
+                .padding(.bottom)
+                .frame(width: geo.size.width, alignment: .leading)
             }
         }
         .ignoresSafeArea()
