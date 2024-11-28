@@ -30,36 +30,39 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            List(filteredDinos) { predator in
-                NavigationLink {
-                    PredatorDetail(predator: predator,
-                                   position: .camera(MapCamera(centerCoordinate: predator.location,
-                                                               distance: 30000)))
-                } label: {
-                    HStack {
-                        // Dino image
-                        Image(predator.image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .shadow(color: .white, radius: 1)
-                        
-                        VStack(alignment: .leading) {
-                            // Name
-                            Text(predator.name)
-                                .fontWeight(.bold)
+            List {
+                ForEach(filteredDinos) { predator in
+                    NavigationLink {
+                        PredatorDetail(predator: predator,
+                                       position: .camera(MapCamera(centerCoordinate: predator.location,
+                                                                   distance: 30000)))
+                    } label: {
+                        HStack {
+                            // Dino image
+                            Image(predator.image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .shadow(color: .white, radius: 1)
                             
-                            // Type
-                            Text(predator.type.rawValue.capitalized)
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                                .padding(.horizontal, 13)
-                                .padding(.vertical, 5)
-                                .background(predator.type.background)
-                                .clipShape(.capsule)
+                            VStack(alignment: .leading) {
+                                // Name
+                                Text(predator.name)
+                                    .fontWeight(.bold)
+                                
+                                // Type
+                                Text(predator.type.rawValue.capitalized)
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .padding(.horizontal, 13)
+                                    .padding(.vertical, 5)
+                                    .background(predator.type.background)
+                                    .clipShape(.capsule)
+                            }
                         }
                     }
                 }
+                .onDelete(perform: deleteDinosaur) // Enable swipe-to-delete
             }
             .navigationTitle("Apex Predators")
             .searchable(text: $searchText)
@@ -101,6 +104,14 @@ struct ContentView: View {
             }
         }
         .preferredColorScheme(.dark)
+    }
+    
+    // Delete handler
+    func deleteDinosaur(at offsets: IndexSet) {
+        for index in offsets {
+            let predator = filteredDinos[index]
+            predators.delete(predator: predator)
+        }
     }
 }
 

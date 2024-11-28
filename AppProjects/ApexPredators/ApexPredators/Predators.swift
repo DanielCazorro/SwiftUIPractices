@@ -69,4 +69,11 @@ class Predators {
             apexPredators = allApexPredators
         }
     }
+    
+    func delete(predator: ApexPredator) {
+        if let index = apexPredators.firstIndex(where: { $0.id == predator.id }) {
+            apexPredators.remove(at: index)
+            allApexPredators.removeAll { $0.id == predator.id } // Removerlo también de la lista original
+        }
+    }
 }
