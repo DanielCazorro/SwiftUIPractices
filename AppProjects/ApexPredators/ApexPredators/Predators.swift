@@ -59,4 +59,14 @@ class Predators {
             }
         }
     }
+    
+    func filter(byMovie movie: String?) {
+        if let movie = movie, !movie.isEmpty {
+            apexPredators = allApexPredators.filter { predator in
+                predator.movies.contains(movie)
+            }
+        } else {
+            apexPredators = allApexPredators
+        }
+    }
 }

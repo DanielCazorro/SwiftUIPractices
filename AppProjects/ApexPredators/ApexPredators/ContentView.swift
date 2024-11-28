@@ -9,15 +9,21 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
-    @State var searchText = ""
-    @State var alphabetical = false
-    @State var currentSelection = PredatorType.all
+    @State private var searchText = ""
+    @State private var alphabetical = false
+    @State private var currentSelection = PredatorType.all
+    @State private var selectedMovie: String? = nil // Track selected movie
     
     let predators = Predators()
     
+    // All available movies for filtering
+    var allMovies: [String] {
+        Set(predators.allApexPredators.flatMap { $0.movies }).sorted()
+    }
+    
     var filteredDinos: [ApexPredator] {
         predators.filter(by: currentSelection)
-        
+        predators.filter(byMovie: selectedMovie)
         predators.sort(by: alphabetical)
         return predators.search(for: searchText)
     }
@@ -51,7 +57,6 @@ struct ContentView: View {
                                 .padding(.vertical, 5)
                                 .background(predator.type.background)
                                 .clipShape(.capsule)
-                            
                         }
                     }
                 }
@@ -73,9 +78,20 @@ struct ContentView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
-                        Picker("Filter", selection: $currentSelection.animation()) {
-                            ForEach(PredatorType.allCases) { type in
-                                Label(type.rawValue.capitalized, systemImage: type.icon)
+                        Section("Filter by Type") {
+                            Picker("Filter", selection: $currentSelection.animation()) {
+                                ForEach(PredatorType.allCases) { type in
+                                    Label(type.rawValue.capitalized, systemImage: type.icon)
+                                }
+                            }
+                        }
+                        
+                        Section("Filter by Movie") {
+                            Picker("Movie", selection: $selectedMovie.animation()) {
+                                Text("All Movies").tag(String?.none)
+                                ForEach(allMovies, id: \.self) { movie in
+                                    Text(movie).tag(String?.some(movie))
+                                }
                             }
                         }
                     } label: {
