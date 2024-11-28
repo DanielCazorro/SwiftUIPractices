@@ -30,16 +30,30 @@ struct PredatorDetail: View {
                                            endPoint: .bottom)
                         }
                     
-                    //Dino image
-                    Image(predator.image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: geo.size.width/1.5,
-                               height: geo.size.height/4)
-                        .scaleEffect(x: -1)
-                        .shadow(color: .black, radius: 7)
-                        .offset(y: 6)
+                    // Dino image with NavigationLink
+                    NavigationLink(destination: {
+                        // Inline image detail view
+                        ZStack {
+                            Color.black.ignoresSafeArea() // Black background
+                            Image(predator.image)
+                                .resizable()
+                                .scaledToFit()
+                                .scaleEffect(x: -1)
+                        }
+                        .navigationTitle(predator.name) // Dino name as title
+                        .navigationBarTitleDisplayMode(.inline)
+                    }) {
+                        Image(predator.image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geo.size.width / 1.5,
+                                   height: geo.size.height / 4)
+                            .scaleEffect(x: -1)
+                            .shadow(color: .black, radius: 7)
+                            .offset(y: 6)
+                    }
                 }
+
                 VStack(alignment: .leading) {
                     // Dino name
                     Text(predator.name)
