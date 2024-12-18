@@ -11,6 +11,8 @@ struct CharacterView: View {
     let character: Character
     let show: String
     
+    @State private var randomIndex: Int = 0 // Índice aleatorio inicial
+    
     var body: some View {
         GeometryReader { geo in
             ScrollViewReader { proxy in
@@ -20,23 +22,28 @@ struct CharacterView: View {
                         .scaledToFit()
                     
                     ScrollView {
-                        TabView {
-                            ForEach(character.images, id: \.self) {
-                                characterImageURL in
-                                
-                                AsyncImage(url: characterImageURL)  { image in
+                        TabView(selection: $randomIndex) {
+                            ForEach(character.images.indices, id: \.self) { index in
+                                AsyncImage(url: character.images[index]) { image in
                                     image
                                         .resizable()
                                         .scaledToFill()
                                 } placeholder: {
                                     ProgressView()
                                 }
+                                .tag(index) // Asignamos un `tag` al índice
                             }
                         }
                         .tabViewStyle(.page)
                         .frame(width: geo.size.width/1.2, height: geo.size.height/1.7)
                         .clipShape(.rect(cornerRadius: 25))
                         .padding(.top, 60)
+                        .onAppear {
+                            // Configuramos un índice aleatorio cuando se monta la vista
+                            if !character.images.isEmpty {
+                                randomIndex = Int.random(in: 0..<character.images.count)
+                            }
+                        }
                         
                         VStack(alignment: .leading) {
                             Text(character.name)

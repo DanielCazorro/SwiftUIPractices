@@ -12,7 +12,7 @@ struct FetchView: View {
     let show: String
     
     @State var showCharacterInfo = false
-    
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -43,7 +43,9 @@ struct FetchView: View {
                                 .padding(.horizontal)
                             
                             ZStack(alignment: .bottom) {
-                                AsyncImage(url: vm.character.images[0]) { image in
+                                let imagesCount = vm.character.images.count
+                                let selectedImageIndex = Int.random(in: 0..<imagesCount)
+                                AsyncImage(url: vm.character.images[selectedImageIndex]) { image in
                                     image
                                         .resizable()
                                         .scaledToFill()
