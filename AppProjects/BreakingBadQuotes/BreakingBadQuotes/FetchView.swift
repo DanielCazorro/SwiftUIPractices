@@ -118,6 +118,11 @@ struct FetchView: View {
             .frame(width: geo.size.width, height: geo.size.height)
         }
         .ignoresSafeArea()
+        .onAppear { // Llamada automática al iniciar
+            Task {
+                await vm.getQuoteData(for: show)
+            }
+        }
         .sheet(isPresented: $showCharacterInfo) {
             CharacterView(character: vm.character, show: show)
         }
