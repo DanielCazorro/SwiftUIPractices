@@ -37,8 +37,23 @@ extension Pokemon {
     }
     
     var highestStat: Stat {
-        stats.max { $0.value > $1.value } ?? Stat(id: 1, label: "Error switch pokemon type", value: 1)
+        stats.max { $0.value < $1.value } ?? Stat(id: 1, label: "Error switch pokemon type", value: 1)
     }
+    
+    func organizeTypes() {
+        if self.types!.count == 2 && self.types![0] == "normal" {
+            self.types!.swapAt(0, 1)
+        }
+    }
+    
+    // Forma antigua, ahora se hace como arriba, con swapAt
+//    func organizeTypes() {
+//        if self.types!.count == 2 && self.types![0] == "normal" {
+//            let tempType = self.types![0]
+//            self.types![0] = self.types![1]
+//            self.types![1] = tempType
+//        }
+//    }
 }
 
 struct Stat: Identifiable {
