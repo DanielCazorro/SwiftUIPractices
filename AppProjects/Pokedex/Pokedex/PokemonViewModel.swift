@@ -42,7 +42,7 @@ class PokemonViewModel: ObservableObject {
                 newPokemon.name = pokemon.name
                 newPokemon.types = pokemon.types
                 newPokemon.hp = Int16(pokemon.hp)
-                newPokemon.attack = Int32(pokemon.attack)
+                newPokemon.attack = Int16(pokemon.attack)
                 newPokemon.defense = Int16(pokemon.defense)
                 newPokemon.specialAttack = Int16(pokemon.specialAttack)
                 newPokemon.specialDefense = Int16(pokemon.specialDefense)
