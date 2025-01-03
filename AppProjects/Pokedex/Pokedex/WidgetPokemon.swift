@@ -63,5 +63,5 @@ struct WidgetPokemon: View {
 
 #Preview {
     WidgetPokemon(widgetSize: .large)
-        .environmentObject(SamplePokemon.samplePokemon!)
+        .environmentObject(SamplePokemon.samplePokemon)
 }

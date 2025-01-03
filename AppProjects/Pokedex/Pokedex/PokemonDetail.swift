@@ -95,5 +95,5 @@ struct PokemonDetail: View {
 
 #Preview {
     PokemonDetail()
-        .environmentObject(SamplePokemon.samplePokemon ?? Pokemon())
+        .environmentObject(SamplePokemon.samplePokemon)
 }

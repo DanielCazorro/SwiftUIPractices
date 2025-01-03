@@ -33,5 +33,5 @@ struct Stats: View {
 
 #Preview {
     Stats()
-        .environmentObject(SamplePokemon.samplePokemon ?? Pokemon())
+        .environmentObject(SamplePokemon.samplePokemon)
 }

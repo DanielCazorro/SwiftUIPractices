@@ -5,16 +5,30 @@
 //  Created by Daniel Cazorro Frías on 3/1/25.
 //
 
+import CoreData
 import WidgetKit
 import SwiftUI
 
 struct Provider: AppIntentTimelineProvider {
+    var randomPokemon: Pokemon {
+        let context = PersistenceController.shared.container.viewContext
+        let fetchRequest: NSFetchRequest<Pokemon> = Pokemon.fetchRequest()
+
+        do {
+            let results = try context.fetch(fetchRequest)
+            return results.randomElement() ?? SamplePokemon.samplePokemon
+        } catch {
+            print("Failed to fetch Pokemon: \(error)")
+            return SamplePokemon.samplePokemon
+        }
+    }
+    
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), pokemon: SamplePokemon.samplePokemon)
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
+        SimpleEntry(date: Date(), configuration: configuration, pokemon: randomPokemon)
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
@@ -24,7 +38,7 @@ struct Provider: AppIntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
+            let entry = SimpleEntry(date: entryDate, configuration: configuration, pokemon: randomPokemon)
             entries.append(entry)
         }
 
@@ -39,18 +53,30 @@ struct Provider: AppIntentTimelineProvider {
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationAppIntent
+    let pokemon: Pokemon
 }
 
 struct PokedexWidgetEntryView : View {
+    @Environment(\.widgetFamily) var widgetSize
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Favorite Emoji:")
-            Text(entry.configuration.favoriteEmoji)
+        switch widgetSize {
+        case .systemSmall:
+            WidgetPokemon(widgetSize: .small)
+                .environmentObject(entry.pokemon)
+            
+        case .systemMedium:
+            WidgetPokemon(widgetSize: .medium)
+                .environmentObject(entry.pokemon)
+            
+        case .systemLarge:
+            WidgetPokemon(widgetSize: .large)
+                .environmentObject(entry.pokemon)
+            
+        default:
+            WidgetPokemon(widgetSize: .large)
+                .environmentObject(entry.pokemon)
         }
     }
 }
@@ -83,6 +109,6 @@ extension ConfigurationAppIntent {
 #Preview(as: .systemSmall) {
     PokedexWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
+    SimpleEntry(date: .now, configuration: .smiley, pokemon: SamplePokemon.samplePokemon)
+    SimpleEntry(date: .now, configuration: .starEyes, pokemon: SamplePokemon.samplePokemon)
 }
