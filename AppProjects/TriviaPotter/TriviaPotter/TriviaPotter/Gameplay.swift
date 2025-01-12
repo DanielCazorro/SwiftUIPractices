@@ -17,6 +17,7 @@ struct Gameplay: View {
     @State private var movePointsToScore = false
     @State private var revealHint = false
     @State private var revealBook = false
+    @State private var wrongAnswersTapped: [Int] = []
     
     let tempAnswers = [true, false, false, false]
     
@@ -52,6 +53,7 @@ struct Gameplay: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
                                 .transition(.scale)
+                                .opacity(tappedCorrectAnswer ? 0.1 : 1)
                         }
                     }
                     .animation(.easeInOut(duration: 2), value: animateViewsIn)
@@ -93,6 +95,8 @@ struct Gameplay: View {
                                             .opacity(revealHint ? 1 : 0)
                                             .scaleEffect(revealHint ? 1.33 : 1)
                                     )
+                                    .opacity(tappedCorrectAnswer ? 0.1 : 1)
+                                    .disabled(tappedCorrectAnswer)
                             }
                         }
                         .animation(.easeOut(duration: 1.5).delay(2), value: animateViewsIn)
@@ -135,6 +139,9 @@ struct Gameplay: View {
                                             .opacity(revealBook ? 1 : 0)
                                             .scaleEffect(revealBook ? 1.33 : 1)
                                     )
+                                    .opacity(tappedCorrectAnswer ? 0.1 : 1)
+                                    .animation(.easeOut(duration: 1.5).delay(2), value: animateViewsIn)
+                                    .disabled(tappedCorrectAnswer)
                             }
                         }
                         .animation(.easeOut(duration: 1.5).delay(2), value: animateViewsIn)
@@ -176,9 +183,17 @@ struct Gameplay: View {
                                             .multilineTextAlignment(.center)
                                             .padding(10)
                                             .frame(width: geo.size.width/2.15, height: 80)
-                                            .background(.green.opacity(0.4))
+                                            .background(wrongAnswersTapped.contains(i) ? .red.opacity(0.5) : .green.opacity(0.4))
                                             .cornerRadius(25)
                                             .transition(.scale)
+                                            .onTapGesture {
+                                                withAnimation(.easeOut(duration: 1)) {
+                                                    wrongAnswersTapped.append(i)
+                                                }
+                                            }
+                                            .scaleEffect(wrongAnswersTapped.contains(i) ? 0.8 : 1)
+                                            .disabled(tappedCorrectAnswer || wrongAnswersTapped.contains(i))
+                                            .opacity(tappedCorrectAnswer ? 0.1 : 1)
                                     }
                                 }
                                 .animation(.easeOut(duration: 1).delay(1.5), value: animateViewsIn)
@@ -201,13 +216,13 @@ struct Gameplay: View {
                                 .font(.largeTitle)
                                 .padding(.top, 50)
                                 .transition(.offset(y: -geo.size.height/4))
-//                                .offset(x: movePointsToScore ? geo.size.width/2.3 : 0, y: movePointsToScore ? -geo.size.height/13 : 0)
-//                                .opacity(movePointsToScore ? 0 : 1)
-//                                .onAppear {
-//                                    withAnimation(.easeInOut(duration: 1).delay(3)) {
-//                                        movePointsToScore = true
-//                                    }
-//                                }
+                                .offset(x: movePointsToScore ? geo.size.width/2.3 : 0, y: movePointsToScore ? -geo.size.height/13 : 0)
+                                .opacity(movePointsToScore ? 0 : 1)
+                                .onAppear {
+                                    withAnimation(.easeInOut(duration: 1).delay(3)) {
+                                        movePointsToScore = true
+                                    }
+                                }
                         }
                     }
                     .animation(.easeInOut(duration: 1).delay(2), value: tappedCorrectAnswer)
@@ -245,7 +260,16 @@ struct Gameplay: View {
                     VStack{
                         if tappedCorrectAnswer {
                             Button("Next Level ->") {
-                                //TODO: Reset level for next Questions
+                                animateViewsIn = false
+                                tappedCorrectAnswer = false
+                                revealHint = false
+                                revealBook = false
+                                movePointsToScore = false
+                                wrongAnswersTapped = []
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    animateViewsIn = true
+                                }
                             }
                             .buttonStyle(.borderedProminent)
                             .tint(.blue.opacity(0.5))
