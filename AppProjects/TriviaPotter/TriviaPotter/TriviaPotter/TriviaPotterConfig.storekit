@@ -32,21 +32,6 @@
     {
       "displayPrice" : "0.99",
       "familyShareable" : true,
-      "internalID" : "C8D97CAF",
-      "localizations" : [
-        {
-          "description" : "Unlock trivia questions for HP7",
-          "displayName" : "HP7 Questions",
-          "locale" : "en_US"
-        }
-      ],
-      "productID" : "hp7",
-      "referenceName" : "HP7",
-      "type" : "NonConsumable"
-    },
-    {
-      "displayPrice" : "0.99",
-      "familyShareable" : true,
       "internalID" : "3B17BAC0",
       "localizations" : [
         {
@@ -73,10 +58,27 @@
       "productID" : "hp6",
       "referenceName" : "HP6",
       "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : true,
+      "internalID" : "DD41BB3C",
+      "localizations" : [
+        {
+          "description" : "Unlock trivia questions for HP7",
+          "displayName" : "HP7 Questions",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "hp7",
+      "referenceName" : "HP7",
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {
     "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "current" : null,

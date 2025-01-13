@@ -15,6 +15,9 @@ struct TriviaPotterApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(store)
+                .task {
+                    await store.loadProducts()
+                }
         }
     }
 }
